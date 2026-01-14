@@ -1,0 +1,415 @@
+/* ==========================================================================
+   ANALYTICS DASHBOARD ANIMATIONS
+   ========================================================================== */
+
+/* Particle Background Animation */
+.particle-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--dashboard-accent);
+    border-radius: 50%;
+    animation: particleFloat 20s linear infinite;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Data Flow Animation */
+.data-flow {
+    position: relative;
+    overflow: hidden;
+}
+
+.data-point {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--dashboard-accent);
+    border-radius: 50%;
+    animation: dataFlow 3s linear infinite;
+}
+
+@keyframes dataFlow {
+    0% {
+        transform: translateX(-100%) translateY(var(--y-start));
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%) translateY(var(--y-end));
+        opacity: 0;
+    }
+}
+
+/* Chart Loading Animation */
+.chart-loading {
+    position: relative;
+}
+
+.chart-loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255,255,255,0.1) 50%, 
+        transparent 100%);
+    background-size: 200% 100%;
+    animation: chartLoading 1.5s infinite;
+}
+
+@keyframes chartLoading {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Counter Animation */
+.counter-animate {
+    display: inline-block;
+    animation: counterPop 0.5s ease-out;
+}
+
+@keyframes counterPop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+        color: var(--dashboard-accent);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Risk Badge Animations */
+.risk-badge.low {
+    animation: lowRiskPulse 3s infinite;
+}
+
+@keyframes lowRiskPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 rgba(76, 175, 80, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 10px rgba(76, 175, 80, 0.8);
+    }
+}
+
+.risk-badge.medium {
+    animation: mediumRiskPulse 3s infinite;
+}
+
+@keyframes mediumRiskPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 rgba(255, 152, 0, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 10px rgba(255, 152, 0, 0.8);
+    }
+}
+
+.risk-badge.high {
+    animation: highRiskPulse 3s infinite;
+}
+
+@keyframes highRiskPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 rgba(244, 67, 54, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 10px rgba(244, 67, 54, 0.8);
+    }
+}
+
+/* Live Feed Item Animation */
+.feed-item.new {
+    animation: newItemHighlight 2s ease-out;
+}
+
+@keyframes newItemHighlight {
+    0% {
+        background: rgba(102, 126, 234, 0.2);
+        border-left-color: var(--dashboard-accent);
+    }
+    100% {
+        background: var(--dashboard-bg);
+        border-left-color: var(--dashboard-accent);
+    }
+}
+
+/* Export Button Animation */
+.export-btn:active {
+    animation: exportClick 0.3s ease-out;
+}
+
+@keyframes exportClick {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Dashboard Stats Glow */
+.stat-card:nth-child(1):hover i {
+    animation: statGlow1 2s infinite;
+}
+
+.stat-card:nth-child(2):hover i {
+    animation: statGlow2 2s infinite;
+}
+
+.stat-card:nth-child(3):hover i {
+    animation: statGlow3 2s infinite;
+}
+
+.stat-card:nth-child(4):hover i {
+    animation: statGlow4 2s infinite;
+}
+
+@keyframes statGlow1 {
+    0%, 100% { text-shadow: 0 0 10px rgba(76, 175, 80, 0.5); }
+    50% { text-shadow: 0 0 20px rgba(76, 175, 80, 0.8); }
+}
+
+@keyframes statGlow2 {
+    0%, 100% { text-shadow: 0 0 10px rgba(102, 126, 234, 0.5); }
+    50% { text-shadow: 0 0 20px rgba(102, 126, 234, 0.8); }
+}
+
+@keyframes statGlow3 {
+    0%, 100% { text-shadow: 0 0 10px rgba(255, 152, 0, 0.5); }
+    50% { text-shadow: 0 0 20px rgba(255, 152, 0, 0.8); }
+}
+
+@keyframes statGlow4 {
+    0%, 100% { text-shadow: 0 0 10px rgba(244, 67, 54, 0.5); }
+    50% { text-shadow: 0 0 20px rgba(244, 67, 54, 0.8); }
+}
+
+/* Chart Container Hover Effects */
+.chart-container:hover canvas {
+    animation: chartHover 0.5s ease-out;
+}
+
+@keyframes chartHover {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Time Filter Transition */
+.chart-filter option {
+    animation: optionAppear 0.3s ease-out;
+}
+
+@keyframes optionAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading Bar Animation */
+.loading-bar {
+    height: 4px;
+    background: linear-gradient(90deg, 
+        var(--dashboard-accent) 0%, 
+        #764ba2 50%, 
+        var(--dashboard-accent) 100%);
+    background-size: 200% 100%;
+    animation: loadingBar 2s linear infinite;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9998;
+}
+
+@keyframes loadingBar {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Dashboard Title Shimmer */
+.dashboard-title h1 {
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-title h1::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 20%;
+    height: 200%;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    animation: titleShimmer 3s infinite;
+}
+
+@keyframes titleShimmer {
+    0% {
+        left: -60%;
+    }
+    100% {
+        left: 120%;
+    }
+}
+
+/* Metric Value Change Animation */
+.metric-value.changed {
+    animation: metricChange 1s ease-out;
+}
+
+@keyframes metricChange {
+    0% {
+        color: var(--dashboard-accent);
+        transform: scale(1);
+    }
+    50% {
+        color: var(--dashboard-success);
+        transform: scale(1.2);
+    }
+    100% {
+        color: var(--dashboard-accent);
+        transform: scale(1);
+    }
+}
+
+/* Grid Layout Animation */
+.dashboard-grid {
+    animation: gridAppear 0.8s ease-out;
+}
+
+@keyframes gridAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Animation Adjustments */
+@media (prefers-reduced-motion: reduce) {
+    .particle,
+    .data-point,
+    .loading-bar,
+    .dashboard-title h1::after,
+    .chart-loading::before,
+    .counter-animate,
+    .risk-badge,
+    .feed-item.new,
+    .export-btn:active,
+    .stat-card:hover i,
+    .chart-container:hover canvas,
+    .chart-filter option,
+    .metric-value.changed,
+    .dashboard-grid {
+        animation: none !important;
+    }
+}
+
+/* Dark Mode Animation Adjustments */
+@media (prefers-color-scheme: dark) {
+    .chart-loading::before {
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(255,255,255,0.05) 50%, 
+            transparent 100%);
+    }
+    
+    .dashboard-title h1::after {
+        background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(255, 255, 255, 0) 100%
+        );
+    }
+}
+
+/* Print Animation Adjustments */
+@media print {
+    .particle,
+    .data-point,
+    .loading-bar,
+    .dashboard-title h1::after,
+    .chart-loading::before,
+    .counter-animate,
+    .risk-badge,
+    .feed-item.new,
+    .export-btn:active,
+    .stat-card:hover i,
+    .chart-container:hover canvas,
+    .chart-filter option,
+    .metric-value.changed,
+    .dashboard-grid {
+        animation: none !important;
+    }
+}

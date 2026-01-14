@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - Diabetes Prediction System</title>
+    <link rel="stylesheet" href="./css/dashboard.css">
+    <link rel="stylesheet" href="./css/animation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="neuron-loader">
+            <div class="neuron-dot"></div>
+            <div class="neuron-dot"></div>
+            <div class="neuron-dot"></div>
+            <div class="neuron-dot"></div>
+            <div class="neuron-dot"></div>
+        </div>
+        <p>Loading Analytics Dashboard...</p>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>DiabePredict</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="dashboard.html" class="active"><i class="fas fa-chart-line"></i> Analytics</a>
+                <a href="index.html#features"><i class="fas fa-star"></i> Features</a>
+                <a href="index.html#predict"><i class="fas fa-stethoscope"></i> Predict</a>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="dashboard-title">
+                <h1><i class="fas fa-chart-pie"></i> Analytics Dashboard</h1>
+                <p>Real-time insights and predictive analytics for diabetes risk assessment</p>
+            </div>
+            
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3 id="totalPredictions">0</h3>
+                    <p>Total Predictions</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3 id="accuracyRate">0%</h3>
+                    <p>Model Accuracy</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock"></i>
+                    <h3 id="avgResponse">0s</h3>
+                    <p>Avg Response Time</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-heartbeat"></i>
+                    <h3 id="highRiskCount">0</h3>
+                    <p>High Risk Cases</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Content -->
+    <main class="dashboard-main">
+        <div class="container">
+            <div class="dashboard-grid">
+                <!-- Chart 1: Risk Distribution -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-chart-pie"></i> Risk Distribution</h3>
+                        <select id="timeFilter" class="chart-filter">
+                            <option value="day">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month" selected>This Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="riskDistributionChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <span class="dot low"></span>
+                            <span>Low Risk: <strong id="lowRiskPercent">0%</strong></span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="dot medium"></span>
+                            <span>Medium Risk: <strong id="mediumRiskPercent">0%</strong></span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="dot high"></span>
+                            <span>High Risk: <strong id="highRiskPercent">0%</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Feature Importance -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-weight"></i> Feature Importance</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="featureImportanceChart"></canvas>
+                    </div>
+                    <div class="chart-insight">
+                        <p><i class="fas fa-lightbulb"></i> <strong>Insight:</strong> Glucose level has the highest impact on predictions</p>
+                    </div>
+                </div>
+
+                <!-- Chart 3: Hourly Trend -->
+                <div class="chart-card wide">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-chart-line"></i> Prediction Trend (24 Hours)</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="hourlyTrendChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 4: Performance Metrics -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-tachometer-alt"></i> Model Performance</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                    <div class="chart-metrics">
+                        <div class="metric">
+                            <span>Precision</span>
+                            <span class="metric-value" id="precisionValue">0%</span>
+                        </div>
+                        <div class="metric">
+                            <span>Recall</span>
+                            <span class="metric-value" id="recallValue">0%</span>
+                        </div>
+                        <div class="metric">
+                            <span>F1-Score</span>
+                            <span class="metric-value" id="f1Value">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Predictions Feed -->
+                <div class="feed-card">
+                    <div class="feed-header">
+                        <h3><i class="fas fa-bolt"></i> Recent Predictions</h3>
+                        <span class="live-badge"><i class="fas fa-circle"></i> LIVE</span>
+                    </div>
+                    <div class="feed-content" id="predictionFeed">
+                        <!-- Predictions will be loaded here -->
+                    </div>
+                    <div class="feed-footer">
+                        <button id="refreshFeed" class="btn-refresh">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Age Distribution -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-user-friends"></i> Age Distribution</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="ageDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Section -->
+            <div class="export-section">
+                <h3><i class="fas fa-file-export"></i> Export Analytics</h3>
+                <div class="export-options">
+                    <button class="export-btn" data-format="pdf">
+                        <i class="fas fa-file-pdf"></i> PDF Report
+                    </button>
+                    <button class="export-btn" data-format="csv">
+                        <i class="fas fa-file-csv"></i> CSV Data
+                    </button>
+                    <button class="export-btn" data-format="json">
+                        <i class="fas fa-code"></i> JSON Data
+                    </button>
+                    <button class="export-btn" data-format="excel">
+                        <i class="fas fa-file-excel"></i> Excel Sheet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3><i class="fas fa-heartbeat"></i> DiabePredict</h3>
+                    <p>Advanced AI-powered diabetes prediction system with comprehensive analytics.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Dashboard</h4>
+                    <a href="#"><i class="fas fa-chart-pie"></i> Risk Distribution</a>
+                    <a href="#"><i class="fas fa-chart-line"></i> Trends</a>
+                    <a href="#"><i class="fas fa-weight"></i> Feature Analysis</a>
+                    <a href="#"><i class="fas fa-download"></i> Export Data</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="#"><i class="fas fa-chart-bar"></i> Analytics API</a>
+                    <a href="#"><i class="fas fa-database"></i> Data Sources</a>
+                    <a href="#"><i class="fas fa-book"></i> Documentation</a>
+                    <a href="#"><i class="fas fa-question-circle"></i> Help</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-researchgate"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Diabetes Prediction System - Analytics Dashboard</p>
+                <p class="update-time">Last updated: <span id="lastUpdate">--:--:--</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="./js/dashboard.js"></script>
+</body>
+</html>
